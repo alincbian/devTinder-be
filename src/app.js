@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("./models");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+require("dotenv");
 
 const app = express();
 

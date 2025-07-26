@@ -1,6 +1,8 @@
 const { Op } = require("sequelize");
 const { User, ConnectionRequest } = require("../models");
 
+const sendEmail = require("../utils/sendEmail");
+
 const sendRequest = async (req, res) => {
   try {
     const senderId = req.user.id;
@@ -38,6 +40,13 @@ const sendRequest = async (req, res) => {
       receiverId,
       status,
     });
+
+    const emailRes = await sendEmail.run(
+      `A new friend request from ${checkReceiver?.firstName}`,
+      `${req.user.firstName} is ${status} in ${checkReceiver?.firstName}`
+    );
+
+    console.log(emailRes);
 
     if (connectionRequest)
       res.status(201).json({
