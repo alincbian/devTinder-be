@@ -2,7 +2,12 @@ const express = require("express");
 const db = require("./models");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 require("dotenv");
+
+require("./utils/cronjob");
+require("./utils/worker");
+require("./utils/bullBoard"); // visual view of BullMq Queues
 
 const app = express();
 

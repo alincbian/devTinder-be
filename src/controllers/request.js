@@ -46,8 +46,6 @@ const sendRequest = async (req, res) => {
       `${req.user.firstName} is ${status} in ${checkReceiver?.firstName}`
     );
 
-    console.log(emailRes);
-
     if (connectionRequest)
       res.status(201).json({
         message: `${req.user.firstName} is ${status} in ${checkReceiver?.firstName}`,
