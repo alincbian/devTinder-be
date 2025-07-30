@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 const userModel = require("./user.js");
 const connectionRequestModel = require("./connectionRequest.js");
+const paymentModel = require("./payment.js");
 const config = require("../config/database.js").development;
 const modelAssociations = require("./associations.js");
 
@@ -17,6 +18,7 @@ db.Sequelize = Sequelize;
 
 db.User = userModel(sequelize);
 db.ConnectionRequest = connectionRequestModel(sequelize);
+db.Payment = paymentModel(sequelize);
 
 modelAssociations(db);
 

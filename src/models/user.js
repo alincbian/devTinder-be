@@ -65,6 +65,13 @@ const userModel = (sequelize) => {
         },
       },
     },
+    isPremium: {
+      type: DataTypes.BOOLEAN,
+      default: false,
+    },
+    membershipType: {
+      type: DataTypes.STRING,
+    },
     photoUrl: {
       type: DataTypes.STRING,
       defaultValue:
