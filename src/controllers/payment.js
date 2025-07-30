@@ -85,6 +85,11 @@ const verifyPayment = async (req, res) => {
       where: { orderId: notification?.metadata?.order_id },
     });
 
+    if (!payment) {
+      console.log("Payment not found");
+      return res.status(400).json({ message: "Payment not found" });
+    }
+
     payment.status = notification?.state === "PAID" ? "success" : "failed";
     await payment.save();
 
