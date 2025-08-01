@@ -1,5 +1,5 @@
 module.exports = (db) => {
-  const { User, ConnectionRequest, Payment } = db;
+  const { User, ConnectionRequest, Payment, Chat, Message } = db;
 
   User.hasMany(ConnectionRequest, {
     foreignKey: "senderId",
@@ -22,4 +22,13 @@ module.exports = (db) => {
   });
 
   Payment.belongsTo(User, { foreignKey: "userId", as: "User" });
+
+  User.belongsToMany(Chat, { through: "ChatParticipants", as: "Chats" });
+  Chat.belongsToMany(User, { through: "ChatParticipants", as: "Participants" });
+
+  Chat.hasMany(Message, { foreignKey: "chatId" });
+  Message.belongsTo(Chat, { foreignKey: "chatId" });
+
+  User.hasMany(Message, { foreignKey: "senderId" });
+  Message.belongsTo(User, { foreignKey: "senderId", as: "sender" });
 };

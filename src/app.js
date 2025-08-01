@@ -2,12 +2,14 @@ const express = require("express");
 const db = require("./models");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const { createServer } = require("http");
 
 require("dotenv");
 
 require("./utils/cronjob");
 require("./utils/worker");
 require("./utils/bullBoard"); // visual view of BullMq Queues
+const initializeSocket = require("./utils/socket");
 
 const app = express();
 
@@ -16,6 +18,7 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const paymentRouter = require("./routes/payment");
+const chatRouter = require("./routes/chat");
 
 app.use(
   cors({
@@ -31,6 +34,11 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
+app.use("/", chatRouter);
+
+const server = createServer(app);
+
+initializeSocket(server);
 
 db.sequelize
   .authenticate()
@@ -40,7 +48,7 @@ db.sequelize
     return db.sequelize.sync({ alter: true });
   })
   .then(() => {
-    app.listen(process.env.PORT || 5000, () => {
+    server.listen(process.env.PORT || 5000, () => {
       console.log("🚀 Server running on port", process.env.PORT || 5000);
     });
   })
